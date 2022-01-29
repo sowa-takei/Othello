@@ -4,14 +4,14 @@
 <head>
 <title>Javascriptでオセロゲーム作成</title>
 <style type="text/css">
-#fieid td {
+#field td {
   border: 1px solid black;
   width: 50px;
   height: 50px;
   background-color: green;
   text-align: center;
   vertical-align: middle;
-  teble-layout: fixed;
+  table-layout: fixed;
   padding: 1px 1px 1px 1px;
   font-size: 33px;
 }
@@ -29,6 +29,47 @@
 
 <script type="text/javascript">
 //初期画面起動時
+//初期変数定義
+
+var turn = 0 //ターン1:黒　-1:白
+
+//盤面の状況を二次元入れるで定義
+var ban_ar = new Array(8)
+for (var x = 0; x < ban_ar.length; x++){
+  ban_ar[x] = new Array(8)
+}
+
+//HTMLで定義したテーブル取得
+var ban = document.getElementById('field')
+
+//取得したテーブルに盤面生成
+ban_new()
+
+//盤面を初期化する
+ban_init()
+
+//クリックした時に実行されるイベント
+for (var x = 0; x < 8; x++){
+for (var y = 0; y < 8; y++){
+  var select_cell = ban.rows[x].cells[y];
+  select_cell.onclick = funcrtion() {
+  //クリックされた場所に石がない場合は、その場所にターン側の石が置けるかチェックし
+  //置ける場合は、盤面を更新。相手ターンへ移る
+  if (ban_ar[this.parentNode.rowIndex][this.cellIndex] == 0) {
+  if (check_reverse(this.parentNode.rowIndex,this.cellIndex) > 0){
+    ban_set()
+    cheng_turn()
+  }
+  }
+  }
+}
+}
+
+//テーブルで盤面を作成する処理
+function ban_new() {
+  for (var x = 0; x < 8; x++) {
+    var tr = document.createElement("tr")
+    ban.appendChild(tr)
 </script>
 </body>
 </html>
