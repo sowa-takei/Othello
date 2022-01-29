@@ -71,7 +71,7 @@ function ban_new() {
   for (var x = 0; x < 8; x++) {
     var tr = document.createElement("tr")
     ban.appendChild(tr)
-  for (var = 0; y < 8; y++) {
+  for (var y= 0; y < 8; y++) {
     var td = document.createElement("td")
     ban.appendChild(td)
   }
@@ -86,6 +86,14 @@ function ban_init () {
     ban_ar[x][y] = 0
   }
 }
+
+//初期状態では、真ん中に白黒を配列
+ban_ar[3][3] = -1
+ban_ar[4][3] = 1
+ban_ar[3][4] = 1
+ban_ar[4][4] = -1
+ban_set()
+
 </script>
 </body>
 </html>
