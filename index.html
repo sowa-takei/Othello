@@ -122,6 +122,28 @@ function ban_init () {
    return true
  };
 
+ //ターンを変更する処理
+ function cheng_turn () {
+   var tarn_msg = document.getElementById('view_tarn')
+   if(turn == 0){
+    //0は最初として、メッセージのみで処理終了
+    turn = 1
+    turn_msg.textContent = "黒の番です。"
+    return
+   }
+   //ターン変更
+   turn = turn * -1
+   //ターン交代して、置けるところがあるか確認する
+   //現状の配置をバックアップ
+   var ban_bak = new Array(8)
+   var check_reverse_cnt = 0
+   for (var x = 0; x < 8; x++){
+   for (var y = 0; y < 8; y++){
+     ban_bak[x][y] = ban_ar[x][y]
+   }
+   }
+ }
+
 </script>
 </body>
 </html>
