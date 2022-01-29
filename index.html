@@ -85,14 +85,19 @@ function ban_init () {
   for (var y = 0; y < 8; y++) {
     ban_ar[x][y] = 0
   }
-}
+  }
 
 //初期状態では、真ん中に白黒を配列
-ban_ar[3][3] = -1
-ban_ar[4][3] = 1
-ban_ar[3][4] = 1
-ban_ar[4][4] = -1
-ban_set()
+    ban_ar[3][3] = -1
+    ban_ar[4][3] = 1
+    ban_ar[3][4] = 1
+    ban_ar[4][4] = -1
+    ban_set()
+
+    //ターンも初期化
+    trun = 0
+    cheng_turn()
+ };
 
 </script>
 </body>
