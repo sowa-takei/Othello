@@ -73,7 +73,7 @@ function ban_new() {
     ban.appendChild(tr)
   for (var y= 0; y < 8; y++) {
     var td = document.createElement("td")
-    ban.appendChild(td)
+    tr.appendChild(td)
   }
   }
 };
@@ -95,8 +95,31 @@ function ban_init () {
     ban_set()
 
     //ターンも初期化
-    trun = 0
+    turn = 0
     cheng_turn()
+ };
+
+ //盤面状況(配列)を実際の盤面へ反映させる処理
+ function ban_set() {
+   var stone = ""
+   for (var x = 0; x < 8; x++){
+   for (var y = 0; y < 8; y++){
+     switch( ban_ar[x][y] ){
+       case 0:
+       stone = ""
+       break;
+       case -1:
+         stone = "○"
+         break;
+         case 1:
+           stone = "●"
+           break;
+     }
+     ban.rows[x].cells[y].innerText = stone;
+
+   }
+   }
+   return true
  };
 
 </script>
