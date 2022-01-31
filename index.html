@@ -169,6 +169,14 @@ function ban_init () {
      }
    }
    }
+   //白と黒の合計が8*8=64の場合は処理終了
+   if (white_cnt + black_cnt == 64 || white_cnt == 0 || black_cnt == 0) {
+   if (white_cnt == black_cnt) {
+       alert("勝負は引き分けです")
+   }else if(white_cnt > black_cnt){
+       alert("勝負は、黒:" + black_cnt + "対、白:" + white_cnt + "で白の勝ちです")
+   }
+   }
  }
 
 </script>
