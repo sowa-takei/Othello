@@ -175,7 +175,24 @@ function ban_init () {
        alert("勝負は引き分けです")
    }else if(white_cnt > black_cnt){
        alert("勝負は、黒:" + black_cnt + "対、白:" + white_cnt + "で白の勝ちです")
+   }else {
+       alert("勝負は、黒:" + black_cnt + "対、白:" + white_cnt + "で黒の勝ちです")
    }
+
+   } else {
+     //置ける場所がない場合は、ターン相手に戻す
+     if(check_reverse_cnt == 0){
+       switch( turn) {
+         case -1:
+           alert("白の置ける場所がありません。続けて黒の番となります。")
+           turn = turn * -1
+           break;
+           case 1:
+            alert("黒の置ける場所がありません。続けて白の番となります。")
+            turn = turn * -1
+            break;
+       }
+     }
    }
  }
 
