@@ -128,7 +128,7 @@ function ban_init () {
    if(turn == 0){
     //0は最初として、メッセージのみで処理終了
     turn = 1
-    turn_msg.textContent = "黒の番です。"
+    tarn_msg.textContent = "黒の番です。"
     return
    }
    //ターン変更
@@ -142,7 +142,7 @@ function ban_init () {
      ban_bak[x][y] = ban_ar[x][y]
    }
    }
-   
+
    //左端からすべてのマスの確認を行う
    var white_cnt = 0
    var black_cnt = 0
@@ -150,6 +150,23 @@ function ban_init () {
    for (var y = 0; y < 8; y++) {
      //空白マスのみおけるのでチェック
      //それ以外は石の数を加算
+     switch( ban_ar[x][y] ) {
+       case 0:
+         check_reverse_cnt = check_reverse_cnt + check_reverse(x,y)
+         //バックアップから元に戻す
+         for (var i = 0; i < 8; i++) {
+         for (var ii = 0; ii < 8; ii++) {
+           ban_ar[i][ii] = ban_bak[i][ii]
+         }
+         }
+         break;
+         case -1:
+           white_cnt++
+           break
+           case 1:
+             black_cnt++
+             break
+     }
    }
    }
  }
