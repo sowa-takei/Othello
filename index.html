@@ -5,196 +5,214 @@
 <title>JavaScriptでオセロゲームを作る</title>
 <style type="text/css">
 #field td {
-  border: 1px solid black;
-  width: 50px;
-  height: 50px;
-  background-color: green;
-  text-align: center;
-  vertical-align: middle;
-  table-layout: fixed;
-  padding: 1px 1px 1px 1px;
-  font-size: 33px;
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    background-color: green;
+    text-align: center;
+    vertical-align: middle;
+    table-layout: fixed;
+    padding: 1px 1px 1px 1px;
+    font-size: 33px;
 }
 </style>
 
 </head>
 
-
 <body>
-<!--盤面-->
+
+<!--<!- 盤面 ->-->
 <table id="field"></table>
-<!--ターンの表示-->
-<p id="view-tarn"></p>
-<!--初期化ボタン-->
-<buuton type="button" id="ban-init" onclick="ban-init()">やり直し</buuton>
+<!--<!- ターンの表示 ->-->
+<p id="view_tarn"></p>
+<!- 初期化ボタン ->
+<button type="button" id="ban_init" onclick="ban_init()">やり直し</button>
 
 <script type="text/javascript">
-//初期画面起動時
-//初期変数定義
-
-var turn = 0 //ターン1:黒　-1:白
-
-//盤面の状況を二次元入れるで定義
+// 初期画面起動時
+// 初期変数定義
+var turn = 0 // ターン 1:黒、-1:白
+// 盤面の状況を二次元配列で定義
 var ban_ar = new Array(8)
 for (var x = 0; x < ban_ar.length; x++){
-  ban_ar[x] = new Array(8)
+ ban_ar[x] = new Array(8)
 }
 
-//HTMLで定義したテーブル取得
+// HTMLで定義したテーブルを取得
 var ban = document.getElementById('field')
 
-//取得したテーブルに盤面生成
+// 取得したテーブルに盤面生成
 ban_new()
 
-//盤面を初期化する
+// 盤面を初期化する
 ban_init()
 
-//クリックした時に実行されるイベント
-for (var x = 0; x < 8; x++){
-for (var y = 0; y < 8; y++){
-  var select_cell = ban.rows[x].cells[y];
-  select_cell.onclick = function() {
-  //クリックされた場所に石がない場合は、その場所にターン側の石が置けるかチェックし
-  //置ける場合は、盤面を更新。相手ターンへ移る
-  if (ban_ar[this.parentNode.rowIndex][this.cellIndex] == 0) {
-  if (check_reverse(this.parentNode.rowIndex,this.cellIndex) > 0){
-    ban_set()
-    cheng_turn()
-  }
-  }
-  }
+// クリックした時に実行されるイベント
+for (var x = 0; x < 8; x++) {
+for (var y = 0; y < 8; y++) {
+var select_cell = ban.rows[x].cells[y];
+select_cell.onclick = function() {
+    // クリックされた場所に石がない場合は、その場所にターン側の石が置けるかチェックし
+    // 置ける場合は、盤面を更新。相手のターンへ移る
+    if (ban_ar[this.parentNode.rowIndex][this.cellIndex] == 0) {
+    if (check_reverse(this.parentNode.rowIndex,this.cellIndex) > 0){
+        ban_set()
+        cheng_turn()
+    }
+    }
+}
 }
 }
 
-//テーブルで盤面を作成する処理
+// テーブルで盤面を作成する処理
 function ban_new() {
-  for (var x = 0; x < 8; x++) {
-    var tr = document.createElement("tr")
-    ban.appendChild(tr)
-  for (var y= 0; y < 8; y++) {
-    var td = document.createElement("td")
-    tr.appendChild(td)
-  }
-  }
+    for (var x = 0; x < 8; x++) {
+        var tr = document.createElement("tr")
+        ban.appendChild(tr)
+    for (var y = 0; y < 8; y++) {
+        var td = document.createElement("td")
+        tr.appendChild(td)
+
+    }
+    }
 };
 
 // 盤面を初期化する処理
 function ban_init () {
 // 全てをクリア
-  for (var x = 0; x < 8; x++) {
-  for (var y = 0; y < 8; y++) {
-    ban_ar[x][y] = 0
-  }
-  }
+    for (var x = 0; x < 8; x++) {
+    for (var y = 0; y < 8; y++) {
+        ban_ar[x][y] = 0
 
-//初期状態では、真ん中に白黒を配列
-    ban_ar[3][3] = -1
-    ban_ar[4][3] = 1
-    ban_ar[3][4] = 1
-    ban_ar[4][4] = -1
-    ban_set()
+    }
+    }
+// 初期状態では、真ん中に白黒を配列
+ban_ar[3][3] = -1
+ban_ar[4][3] = 1
+ban_ar[3][4] = 1
+ban_ar[4][4] = -1
+ban_set()
 
-    //ターンも初期化
-    turn = 0
-    cheng_turn()
- };
+// ターンも初期化
+turn = 0
+cheng_turn()
+};
 
- //盤面状況(配列)を実際の盤面へ反映させる処理
- function ban_set() {
-   var stone = ""
-   for (var x = 0; x < 8; x++){
-   for (var y = 0; y < 8; y++){
-     switch( ban_ar[x][y] ){
-       case 0:
-       stone = ""
-       break;
-       case -1:
-         stone = "○"
-         break;
-         case 1:
-           stone = "●"
-           break;
-     }
-     ban.rows[x].cells[y].innerText = stone;
+// 盤面状況(配列)を実際の盤面へ反映させる処理
+function ban_set () {
+    var stone = ""
+    for (var x = 0; x < 8; x++) {
+    for (var y = 0; y < 8; y++) {
+        switch( ban_ar[x][y] ) {
+            case 0:
+            stone = ""
+            break;
+            case -1:
+            stone = "○"
+            break;
+            case 1:
+            stone = "●"
+            break;
 
-   }
-   }
-   return true
- };
+        }
+        ban.rows[x].cells[y].innerText = stone;
 
- //ターンを変更する処理
- function cheng_turn () {
-   var tarn_msg = document.getElementById('view_tarn')
-   if(turn == 0){
-    //0は最初として、メッセージのみで処理終了
+    }
+    }
+    return true
+};
+
+// ターンを変更する処理
+function cheng_turn () {
+    var tarn_msg = document.getElementById('view_tarn')
+    if(turn == 0){
+    // 0は最初として、メッセージのみで処理終了
     turn = 1
     tarn_msg.textContent = "黒の番です。"
     return
-   }
-   //ターン変更
-   turn = turn * -1
-   //ターン交代して、置けるところがあるか確認する
-   //現状の配置をバックアップ
-   var ban_bak = new Array(8)
-   var check_reverse_cnt = 0
-   for (var x = 0; x < 8; x++){
-   for (var y = 0; y < 8; y++){
-     ban_bak[x][y] = ban_ar[x][y]
-   }
-   }
+    }
+    // ターンを変更
+    turn = turn * -1
+    // ターンを交代して、置けるところがあるか確認する
+    // 現状の配置をバックアップ
+    var ban_bak = new Array(8)
+    var check_reverse_cnt = 0
+    for (var i = 0; i < ban_ar.length; i++){
+    ban_bak[i] = new Array(8)
+    }
+    for (var x = 0; x < 8; x++) {
+    for (var y = 0; y < 8; y++) {
+        ban_bak[x][y] = ban_ar[x][y]
+    }
+    }
 
-   //左端からすべてのマスの確認を行う
-   var white_cnt = 0
-   var black_cnt = 0
-   for (var x = 0; x < 8; x++) {
-   for (var y = 0; y < 8; y++) {
-     //空白マスのみおけるのでチェック
-     //それ以外は石の数を加算
-     switch( ban_ar[x][y] ) {
-       case 0:
-         check_reverse_cnt = check_reverse_cnt + check_reverse(x,y)
-         //バックアップから元に戻す
-         for (var i = 0; i < 8; i++) {
-         for (var ii = 0; ii < 8; ii++) {
-           ban_ar[i][ii] = ban_bak[i][ii]
-         }
-         }
-         break;
-         case -1:
-           white_cnt++
-           break
-           case 1:
-             black_cnt++
-             break
-     }
-   }
-   }
-   //白と黒の合計が8*8=64の場合は処理終了
-   if (white_cnt + black_cnt == 64 || white_cnt == 0 || black_cnt == 0) {
-   if (white_cnt == black_cnt) {
-       alert("勝負は引き分けです")
-   }else if(white_cnt > black_cnt){
-       alert("勝負は、黒:" + black_cnt + "対、白:" + white_cnt + "で白の勝ちです")
-   }else {
-       alert("勝負は、黒:" + black_cnt + "対、白:" + white_cnt + "で黒の勝ちです")
-   }
-
-   } else {
-     //置ける場所がない場合は、ターン相手に戻す
-     if(check_reverse_cnt == 0){
-       switch( turn) {
-         case -1:
-           alert("白の置ける場所がありません。続けて黒の番となります。")
-           turn = turn * -1
-           break;
-           case 1:
-            alert("黒の置ける場所がありません。続けて白の番となります。")
-            turn = turn * -1
+    // 左端からすべてのマスの確認を行う
+    var white_cnt = 0
+    var black_cnt = 0
+    for (var x = 0; x < 8; x++) {
+    for (var y = 0; y < 8; y++) {
+        // 空白マスのみおけるのでチェック
+        // それ以外は石の数を加算
+        switch( ban_ar[x][y] ) {
+            case 0:
+                check_reverse_cnt = check_reverse_cnt + check_reverse(x,y)
+            // バックアップから元に戻す
+            for (var i = 0; i < 8; i++) {
+            for (var ii = 0; ii < 8; ii++) {
+                ban_ar[i][ii] = ban_bak[i][ii]
+            }
+            }
             break;
-       }
-     }
-   }
- }
+                case -1:
+                    white_cnt++
+                break
+                case 1:
+                    black_cnt++
+                break
+
+        }
+    }
+    }
+    // 白と黒の合計が8*8=64の場合は処理終了
+    if (white_cnt + black_cnt == 64 || white_cnt == 0 || black_cnt == 0){
+        if( white_cnt == black_cnt) {
+            alert("勝負は引分です。")
+        } else if (white_cnt > black_cnt){
+            alert("勝負は、黒：" + black_cnt + "対、白：" + white_cnt + "で、白の勝ちです。")
+        } else {
+            alert("勝負は、黒："+ black_cnt + "対、白："+ white_cnt + "で、黒の勝ちです。")
+        }
+
+    } else {
+        // 置ける場所がない場合は、ターンを相手に戻す
+        if(check_reverse_cnt == 0){
+            switch( turn ) {
+                case -1:
+                    alert("白の置ける場所がありません。続けて黒の番となります。")
+                    turn = turn * -1
+                    break;
+                    case 1:
+                        alert("黒の置ける場所がありません。続けて白の番となります。")
+                        turn = turn * -1
+                        break;
+
+            }
+        }
+
+    }
+    //ターンを表示する
+    switch( trun ) {
+        case -1:
+            tarn_msg.textContent = "白の番です。";
+            break;
+            case 1:
+                tarn_msg.textContent = "黒の番です。";
+                break;
+
+    }
+};
+
+
 
 </script>
 </body>
