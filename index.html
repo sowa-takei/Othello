@@ -108,7 +108,7 @@ function ban_set () {
             stone = ""
             break;
             case -1:
-            stone = "○"
+            stone = "☆"
             break;
             case 1:
             stone = "●"
@@ -210,8 +210,30 @@ function cheng_turn () {
                 break;
 
     }
-};
 
+};
+//指定したセルにターン側の石が置けるか確認
+function check_reverse (row_index,cell_index){
+    var reverse_cnt = 0
+    //各方向へリーバース出来るか確認
+    reverse_cnt = reverse_cnt + line_reverse(row_index,cell_index,-1,0)//上
+    reverse_cnt = reverse_cnt + line_reverse(row_index,cell_index,-1,1)//右上
+    reverse_cnt = reverse_cnt + line_reverse(row_index,cell_index, 0,1)//右
+    reverse_cnt = reverse_cnt + line_reverse(row_index,cell_index, 1,1)//右下
+    reverse_cnt = reverse_cnt + line_reverse(row_index,cell_index, 1,0)//下
+    reverse_cnt = reverse_cnt + line_reverse(row_index,cell_index, 1,-1)//左下
+    reverse_cnt = reverse_cnt + line_reverse(row_index,cell_index, 0,-1)//左
+    reverse_cnt = reverse_cnt + line_reverse(row_index,cell_index, -1,-1)//左上
+
+    return reverse_cnt
+}
+
+//指定したセルからから指定した方向へreverseを行う
+function line_reverse(row_index,cell_index,add_x,add_y) {
+    //最初に今の盤状況を退避する
+    var ban_bak = new Array(8)
+    
+}
 
 
 </script>
