@@ -33,12 +33,16 @@
 // 初期変数定義
 var turn = 0 // ターン 1:黒、-1:白
 // 盤面の状況を二次元配列で定義
+
+// 要素が8個の空配列を作成 石置く場所作成してる？
 var ban_ar = new Array(8)
+// for文でban_ar[0~7]の要素に8つの要素を作ることで8×8の64個の要素を作る事が出来る
 for (var x = 0; x < ban_ar.length; x++){
  ban_ar[x] = new Array(8)
 }
 
 // HTMLで定義したテーブルを取得
+// htmlでテーブルタグに```id="field"とつけたのを取得する
 var ban = document.getElementById('field')
 
 // 取得したテーブルに盤面生成
@@ -49,19 +53,20 @@ ban_init()
 
 // クリックした時に実行されるイベント
 for (var x = 0; x < 8; x++) {
-for (var y = 0; y < 8; y++) {
-var select_cell = ban.rows[x].cells[y];
-select_cell.onclick = function() {
-    // クリックされた場所に石がない場合は、その場所にターン側の石が置けるかチェックし
-    // 置ける場合は、盤面を更新。相手のターンへ移る
-    if (ban_ar[this.parentNode.rowIndex][this.cellIndex] == 0) {
-    if (check_reverse(this.parentNode.rowIndex,this.cellIndex) > 0){
-        ban_set()
-        cheng_turn()
+    // for文の中にfor文が入ってるのでxが0の間にyが0~7をfor文を回し、次にxが1の間にyが0~7までfor文を回す
+    for (var y = 0; y < 8; y++) {
+        var select_cell = ban.rows[x].cells[y];
+        select_cell.onclick = function() {
+            // クリックされた場所に石がない場合は、その場所にターン側の石が置けるかチェックし
+            // 置ける場合は、盤面を更新。相手のターンへ移る
+            if (ban_ar[this.parentNode.rowIndex][this.cellIndex] == 0) {
+                if (check_reverse(this.parentNode.rowIndex,this.cellIndex) > 0){
+                    ban_set()
+                    cheng_turn()
+                }
+            }
+        }
     }
-    }
-}
-}
 }
 
 // テーブルで盤面を作成する処理
@@ -201,7 +206,7 @@ function cheng_turn () {
 
     }
     //ターンを表示する
-    switch( trun ) {
+    switch( turn ) {
         case -1:
             tarn_msg.textContent = "白の番です。";
             break;
