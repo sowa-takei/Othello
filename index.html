@@ -76,9 +76,10 @@ for (var x = 0; x < 8; x++) {
 
 // テーブルで盤面を作成する処理
 function ban_new() {
-    // createElementで要素を作り
     for (var x = 0; x < 8; x++) {
+         // createElementで要素を作り
         var tr = document.createElement("tr")
+        // appendChildでそれを追加しています。
         ban.appendChild(tr)
     for (var y = 0; y < 8; y++) {
         var td = document.createElement("td")
