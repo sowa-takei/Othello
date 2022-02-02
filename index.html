@@ -55,13 +55,18 @@ ban_init()
 for (var x = 0; x < 8; x++) {
     // for文の中にfor文が入ってるのでxが0の間にyが0~7をfor文を回し、次にxが1の間にyが0~7までfor文を回す
     for (var y = 0; y < 8; y++) {
+        // var select_cell =どの配列.どこ
         var select_cell = ban.rows[x].cells[y];
         select_cell.onclick = function() {
             // クリックされた場所に石がない場合は、その場所にターン側の石が置けるかチェックし
             // 置ける場合は、盤面を更新。相手のターンへ移る
+            　 　　// [ban_arのxの位置、banのyの位置]置く前どっちも0の時＝まだ何も置かれていなくて新たに置ける時
             if (ban_ar[this.parentNode.rowIndex][this.cellIndex] == 0) {
+                // 石を置いてひっくり返せるか確認する関数(親ノード.rowのxのセル、ban_arのyのセル)が0より大きい時＝石が置ける時)
                 if (check_reverse(this.parentNode.rowIndex,this.cellIndex) > 0){
+                    // 盤をセットする
                     ban_set()
+                    // ターン変わる
                     cheng_turn()
                 }
             }
@@ -71,6 +76,7 @@ for (var x = 0; x < 8; x++) {
 
 // テーブルで盤面を作成する処理
 function ban_new() {
+    // createElementで要素を作り
     for (var x = 0; x < 8; x++) {
         var tr = document.createElement("tr")
         ban.appendChild(tr)
